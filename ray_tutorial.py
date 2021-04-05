@@ -128,6 +128,8 @@ def task2(i):
     print('The results are {}. This took {} seconds. Run the next cell to see '
       'if the exercise was done correctly.'.format(results, duration))
 
+    return results 
+
 print('The results are {}. This took {} seconds. Run the next cell to see '
       'if the exercise was done correctly.'.format(results, duration))
 
