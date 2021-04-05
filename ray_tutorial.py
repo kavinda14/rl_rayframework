@@ -94,12 +94,17 @@ ray.init(num_cpus=4, include_webui=False, ignore_reinit_error=True, redis_max_me
 # This function is a proxy for a more interesting and computationally
 # intensive function.
 
+@ray.remote
 def slow_function(i):
     time.sleep(1)
     return i
 
 
-# **EXERCISE:** The loop below takes too long. The four function calls could be executed in parallel. Instead of four seconds, it should only take one second. Once `slow_function` has been made a remote function, execute these four tasks in parallel by calling `slow_function.remote()`. Then obtain the results by calling `ray.get` on a list of the resulting object IDs.
+# **EXERCISE:** 
+# The loop below takes too long. The four function calls could be executed in parallel. 
+# Instead of four seconds, it should only take one second. 
+# Once `slow_function` has been made a remote function, execute these four tasks in parallel by calling `slow_function.remote()`. 
+# Then obtain the results by calling `ray.get` on a list of the resulting object IDs.
 
 # Sleep a little to improve the accuracy of the timing measurements below.
 # We do this because workers may still be starting up in the background.
@@ -110,6 +115,15 @@ results = [slow_function(i) for i in range(4)]
 
 end_time = time.time()
 duration = end_time - start_time
+
+def task2(i):
+    results = [slow_function.remote(i) for i in range(4)]
+
+    end_time = time.time()
+    duration = end_time - start_time
+
+    print('The results are {}. This took {} seconds. Run the next cell to see '
+      'if the exercise was done correctly.'.format(results, duration))
 
 print('The results are {}. This took {} seconds. Run the next cell to see '
       'if the exercise was done correctly.'.format(results, duration))
