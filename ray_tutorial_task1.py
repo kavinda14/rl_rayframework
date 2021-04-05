@@ -8,23 +8,30 @@ import numpy as np
 import pickle
 
 
-# Start Ray. By default, Ray does not schedule more tasks concurrently than there are CPUs. 
-# This example requires four tasks to run concurrently, so we tell Ray that there are four CPUs. 
-# Usually this is not done and Ray computes the number of CPUs using `psutil.cpu_count()`. The argument `ignore_reinit_error=True` just ignores errors if the cell is run multiple times.
-# The call to `ray.init` starts a number of processes.
-
 ray.init(num_cpus=4, include_webui=False, ignore_reinit_error=True, redis_max_memory=1000000000, object_store_memory=10000000000)
 
 
-# **EXERCISE:** The function below is slow. Turn it into a remote function using the `@ray.remote` decorator. 
-
-
-# This function is a proxy for a more interesting and computationally
-# intensive function.
+#TASK 1
 
 @ray.remote
 def slow_function(i):
     time.sleep(1)
     return i
 
+
+#TASK 2
+
+def task2(i):
+    time.sleep(10.0)
+    start_time = time.time()
+
+    results = [slow_function.remote(i) for _ in range(4)]
+
+    end_time = time.time()
+    duration = end_time - start_time
+
+    print('The results are {}. This took {} seconds. Run the next cell to see '
+      'if the exercise was done correctly.'.format(results, duration))
+
+    return results 
 
