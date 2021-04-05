@@ -117,7 +117,10 @@ end_time = time.time()
 duration = end_time - start_time
 
 def task2(i):
-    results = [slow_function.remote(i) for i in range(4)]
+    time.sleep(10.0)
+    start_time = time.time()
+
+    results = [slow_function.remote(i) for _ in range(4)]
 
     end_time = time.time()
     duration = end_time - start_time
