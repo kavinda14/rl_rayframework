@@ -92,8 +92,9 @@ def task3():
                             'Doing this will prevent parallelism from being exposed. '
                             'Make sure to only call ray.get once outside of the for loop.')
 
+    losses = ray.get(losses)
     print('The losses are {}.'.format(losses) + '\n')
-    loss = sum(ray.get(losses))
+    loss = sum(losses)
 
     end_time = time.time()
     duration = end_time - start_time
