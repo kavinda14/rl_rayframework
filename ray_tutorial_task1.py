@@ -117,16 +117,16 @@ def task4():
 
     @ray.remote
     class Foo(object):
-    def __init__(self):
-        self.counter = 0
+        def __init__(self):
+            self.counter = 0
 
-    def reset(self):
-        self.counter = 0
+        def reset(self):
+            self.counter = 0
 
-    def increment(self):
-        time.sleep(0.5)
-        self.counter += 1
-        return self.counter
+        def increment(self):
+            time.sleep(0.5)
+            self.counter += 1
+            return self.counter
 
     assert hasattr(Foo, 'remote'), 'You need to turn "Foo" into an actor with @ray.remote.'
 
