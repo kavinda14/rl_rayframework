@@ -130,5 +130,26 @@ def task4():
 
     assert hasattr(Foo, 'remote'), 'You need to turn "Foo" into an actor with @ray.remote.'
 
+    f1 = Foo.remote()
+    f2 = Foo.remote()
+
+    time.sleep(2.0)
+    start_time = time.time()
+
+    f1.reset.remote()
+    f2.reset.remote()
+
+    results = []
+    for _ in range(5):
+        results.append(f1.increment.remote())
+        results.append(f2.increment.remote())
+
+    end_time = time.time()
+    duration = end_time - start_time
+    results = ray.get(results)
+    print("Results are: ", results)
+
+    assert not any([isinstance(result, ray.ObjectID) for result in results]), 'Looks like "results" is {}. You may have forgotten to call ray.get.'.format(results)
+
 
 
