@@ -102,4 +102,33 @@ def task3():
     print('The loss is {}. This took {} seconds. Run the next cell to see '
         'if the exercise was done correctly.'.format(loss, duration))
 
+    assert loss == 4000
+    assert duration < 0.8, ('The loop took {} seconds. This is too slow.'
+                        .format(duration))
+    assert duration > 0.4, ('The loop took {} seconds. This is too fast.'
+                        .format(duration))
+
+    print('Success! The example took {} seconds.'.format(duration))
+
+
+# TASK 4
+
+def task4():
+
+    @ray.remote
+    class Foo(object):
+    def __init__(self):
+        self.counter = 0
+
+    def reset(self):
+        self.counter = 0
+
+    def increment(self):
+        time.sleep(0.5)
+        self.counter += 1
+        return self.counter
+
+    assert hasattr(Foo, 'remote'), 'You need to turn "Foo" into an actor with @ray.remote.'
+
+
 
