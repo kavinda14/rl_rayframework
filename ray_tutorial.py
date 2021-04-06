@@ -138,9 +138,12 @@ print('The results are {}. This took {} seconds. Run the next cell to see '
 # 
 #     `results = [ray.get(slow-function.remote(i)) for i in range(4)]`
 #     
-# then we would not get parallelism. This is because each call to `ray.get(slow-function.remote(i))` will block computation until the remote task completes. 
+# then we would not get parallelism. 
+# This is because each call to `ray.get(slow-function.remote(i))` will block computation until the remote task completes. 
 # 
-# **VERIFY:** Run some checks to verify that the changes you made to the code were correct. Some of the checks should fail when you initially run the cells. After completing the exercises, the checks should pass.
+# **VERIFY:** Run some checks to verify that the changes you made to the code were correct. 
+# Some of the checks should fail when you initially run the cells. 
+# After completing the exercises, the checks should pass.
 
 assert results == [0, 1, 2, 3], 'Did you remember to call ray.get?'
 assert duration < 1.1, ('The loop took {} seconds. This is too slow.'
@@ -156,7 +159,8 @@ print('Success! The example took {} seconds.'.format(duration))
 # 
 # **GOAL:** The goal of this exercise is to show how to pass object IDs into remote functions to encode dependencies between tasks.
 # 
-# In this exercise, we construct a sequence of tasks, each of which depends on the previous, mimicking a data parallel application. Within each sequence, tasks are executed serially, but multiple sequences can be executed in parallel.
+# In this exercise, we construct a sequence of tasks, each of which depends on the previous, mimicking a data parallel application. 
+# Within each sequence, tasks are executed serially, but multiple sequences can be executed in parallel.
 # 
 # In this exercise, you will use Ray to parallelize the computation below and speed it up.
 # 
@@ -196,15 +200,19 @@ print('Success! The example took {} seconds.'.format(duration))
 # 
 # So when implementing a remote function, the function should expect a regular Python object regardless of whether the caller passes in a regular Python object or an object ID.
 # 
-# **Task dependencies affect scheduling.** In the example above, the task that creates `y1_id` depends on the task that creates `x1_id`. This has the following implications.
+# **Task dependencies affect scheduling.** 
+# In the example above, the task that creates `y1_id` depends on the task that creates `x1_id`. This has the following implications.
 # 
 # - The second task will not be executed until the first task has finished executing.
 # - If the two tasks are scheduled on different machines, the output of the first task (the value corresponding to `x1_id`) will be copied over the network to the machine where the second task is scheduled.
 
 # These are some helper functions that mimic an example pattern of a data parallel application.
 # 
-# **EXERCISE:** You will need to turn all of these functions into remote functions. When you turn these functions into remote function, you do not have to worry about whether the caller passes in an object ID or a regular object. In both cases, the arguments will be regular objects when the function executes. This means that even if you pass in an object ID, you **do not need to call `ray.get`** inside of these remote functions.
-
+# **EXERCISE:** 
+# You will need to turn all of these functions into remote functions. 
+# When you turn these functions into remote function, you do not have to worry about whether the caller passes in an object ID or a regular object. 
+# In both cases, the arguments will be regular objects when the function executes. 
+# This means that even if you pass in an object ID, you **do not need to call `ray.get`** inside of these remote functions.
 
 def load_data(filename):
     time.sleep(0.1)
@@ -229,7 +237,8 @@ assert hasattr(extract_features, 'remote'), 'extract_features must be a remote f
 assert hasattr(compute_loss, 'remote'), 'compute_loss must be a remote function'
 
 
-# **EXERCISE:** The loop below takes too long. Parallelize the four passes through the loop by turning `load_data`, `normalize_data`, `extract_features`, and `compute_loss` into remote functions and then retrieving the losses with `ray.get`.
+# **EXERCISE:** The loop below takes too long. 
+# Parallelize the four passes through the loop by turning `load_data`, `normalize_data`, `extract_features`, and `compute_loss` into remote functions and then retrieving the losses with `ray.get`.
 # 
 # **NOTE:** You should only use **ONE** call to `ray.get`. For example, the object ID returned by `load_data` should be passed directly into `normalize_data` without needing to be retrieved by the driver.
 
