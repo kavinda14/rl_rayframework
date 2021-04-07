@@ -186,7 +186,8 @@ def task5():
     result_ids = [f.remote(i) for i in range(6)]
     # Get one batch of tasks. Instead of waiting for a fixed subset of tasks, we
     # should instead use the first 3 tasks that finish.
-    initial_results = ray.get(result_ids[:3])
+    # initial_results = ray.get(result_ids[:3])
+    initial_results = result_ids[:3]
     print(initial_results)
 
     ready_ids, remaining_ids = ray.wait(initial_results, num_returns=3, timeout=None)
