@@ -161,7 +161,7 @@ def task4():
     print('Success! The example took {} seconds.'.format(duration))
 
 
-#TASK 5 9
+#TASK 5 10
 
 def task5():
 
@@ -193,7 +193,7 @@ def task5():
     end_time = time.time()
     duration = end_time - start_time
 
-    ray.wait(result_ids, num_returns=3, timeout=None) 
+    # ray.wait(result_ids, num_returns=3, timeout=None) 
     remaining_results = ray.get(result_ids[3:])
 
     assert len(initial_results) == 3
