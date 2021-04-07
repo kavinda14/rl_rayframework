@@ -297,11 +297,16 @@ print('Success! The example took {} seconds.'.format(duration))
 # 
 # See the documentation on actors at http://ray.readthedocs.io/en/latest/actors.html.
 # 
-# Sometimes you need a "worker" process to have "state". For example, that state might be a neural network, a simulator environment, a counter, or something else entirely. However, remote functions are side-effect free. That is, they operate on inputs and produce outputs, but they don't change the state of the worker they execute on.
+# Sometimes you need a "worker" process to have "state". 
+# For example, that state might be a neural network, a simulator environment, a counter, or something else entirely. 
+# However, remote functions are side-effect free. 
+# That is, they operate on inputs and produce outputs, but they don't change the state of the worker they execute on.
 # 
-# Actors are different. When we instantiate an actor, a brand new worker is created, and all methods that are called on that actor are executed on the newly created worker.
+# Actors are different. 
+# When we instantiate an actor, a brand new worker is created, and all methods that are called on that actor are executed on the newly created worker.
 # 
-# This means that with a single actor, no parallelism can be achieved because calls to the actor's methods will be executed one at a time. However, multiple actors can be created and methods can be executed on them in parallel.
+# This means that with a single actor, no parallelism can be achieved because calls to the actor's methods will be executed one at a time. 
+# However, multiple actors can be created and methods can be executed on them in parallel.
 # 
 # ### Concepts for this Exercise - Actors
 # 
@@ -336,7 +341,9 @@ print('Success! The example took {} seconds.'.format(duration))
 #     >>> e.get.remote()
 #     ObjectID(7c432c085864ed4c7c18cf112377a608676afbc3)
 #     ```
-# 3. **Return Values:** Actor methods are non-blocking. They immediately return an object ID and **they create a task which is scheduled on the actor worker**. The result can be retrieved with `ray.get`.
+# 3. **Return Values:** Actor methods are non-blocking. 
+# They immediately return an object ID and **they create a task which is scheduled on the actor worker**. 
+# The result can be retrieved with `ray.get`.
 #     ```python
 #     >>> ray.get(e.set.remote(2))
 #     None
@@ -373,7 +380,8 @@ f1 = Foo()
 f2 = Foo()
 
 
-# **EXERCISE:** Parallelize the code below. The two actors can execute methods in parallel (though each actor can only execute one method at a time).
+# **EXERCISE:** Parallelize the code below. 
+# The two actors can execute methods in parallel (though each actor can only execute one method at a time).
 
 
 # Sleep a little to improve the accuracy of the timing measurements below.
@@ -418,11 +426,16 @@ print('Success! The example took {} seconds.'.format(duration))
 # 
 # See the documentation for ray.wait at https://ray.readthedocs.io/en/latest/api.html#ray.wait.
 # 
-# This script starts 6 tasks, each of which takes a random amount of time to complete. We'd like to process the results in two batches (each of size 3). Change the code so that instead of waiting for a fixed set of 3 tasks to finish, we make the first batch consist of the first 3 tasks that complete. The second batch should consist of the 3 remaining tasks. Do this exercise by using `ray.wait`.
+# This script starts 6 tasks, each of which takes a random amount of time to complete. 
+# We'd like to process the results in two batches (each of size 3). 
+# Change the code so that instead of waiting for a fixed set of 3 tasks to finish, 
+# we make the first batch consist of the first 3 tasks that complete. 
+# The second batch should consist of the 3 remaining tasks. Do this exercise by using `ray.wait`.
 # 
 # ### Concepts for this Exercise - ray.wait
 # 
-# After launching a number of tasks, you may want to know which ones have finished executing. This can be done with `ray.wait`. The function works as follows.
+# After launching a number of tasks, you may want to know which ones have finished executing. 
+# This can be done with `ray.wait`. The function works as follows.
 # 
 # ```python
 # ready_ids, remaining_ids = ray.wait(object_ids, num_returns=1, timeout=None)
@@ -431,11 +444,13 @@ print('Success! The example took {} seconds.'.format(duration))
 # **Arguments:**
 # - `object_ids`: This is a list of object IDs.
 # - `num_returns`: This is maximum number of object IDs to wait for. The default value is `1`.
-# - `timeout`: This is the maximum amount of time in milliseconds to wait for. So `ray.wait` will block until either `num_returns` objects are ready or until `timeout` milliseconds have passed.
+# - `timeout`: This is the maximum amount of time in milliseconds to wait for. 
+# So `ray.wait` will block until either `num_returns` objects are ready or until `timeout` milliseconds have passed.
 # 
 # **Return values:**
 # - `ready_ids`: This is a list of object IDs that are available in the object store.
-# - `remaining_ids`: This is a list of the IDs that were in `object_ids` but are not in `ready_ids`, so the IDs in `ready_ids` and `remaining_ids` together make up all the IDs in `object_ids`.
+# - `remaining_ids`: This is a list of the IDs that were in `object_ids` but are not in `ready_ids`, 
+# so the IDs in `ready_ids` and `remaining_ids` together make up all the IDs in `object_ids`.
 
 # Define a remote function that takes a variable amount of time to run.
 
@@ -450,7 +465,9 @@ def f(i):
     return i, time.time()
 
 
-# **EXERCISE:** Using `ray.wait`, change the code below so that `initial_results` consists of the outputs of the first three tasks to complete instead of the first three tasks that were submitted.
+# **EXERCISE:** Using `ray.wait`, change the code below so 
+# that `initial_results` consists of the outputs of the first three tasks 
+# to complete instead of the first three tasks that were submitted.
 
 # Sleep a little to improve the accuracy of the timing measurements below.
 time.sleep(2.0)
