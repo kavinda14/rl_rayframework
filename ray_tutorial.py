@@ -276,7 +276,8 @@ print('The loss is {}. This took {} seconds. Run the next cell to see '
       'if the exercise was done correctly.'.format(loss, duration))
 
 
-# **VERIFY:** Run some checks to verify that the changes you made to the code were correct. Some of the checks should fail when you initially run the cells. After completing the exercises, the checks should pass.
+# **VERIFY:** Run some checks to verify that the changes you made to the code were correct. 
+# Some of the checks should fail when you initially run the cells. After completing the exercises, the checks should pass.
 
 # In[11]:
 
