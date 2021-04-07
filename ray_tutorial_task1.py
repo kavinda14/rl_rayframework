@@ -161,7 +161,7 @@ def task4():
     print('Success! The example took {} seconds.'.format(duration))
 
 
-#TASK 5 13
+#TASK 5
 
 def task5():
 
@@ -216,3 +216,43 @@ def task5():
 
     print('Success! The example took {} seconds.'.format(duration))
 
+
+#TASK 6
+
+def task6():
+
+    neural_net_weights = {'variable{}'.format(i): np.random.normal(size=1000000)
+                      for i in range(50)}
+
+    @ray.remote
+    def use_weights(weights, i):
+        return i
+
+
+    # **EXERCISE:** In the code below, use `ray.put` to avoid copying the neural net weights 
+    # to the object store multiple times.
+
+
+    # Sleep a little to improve the accuracy of the timing measurements below.
+    time.sleep(2.0)
+    start_time = time.time()
+
+    neural_net_weights_ids = ray.put(neural_net_weights)
+
+    results = ray.get([use_weights.remote(neural_net_weights_ids, i)
+                    for i in range(20)])
+
+    end_time = time.time()
+    duration = end_time - start_time
+
+
+    # **VERIFY:** Run some checks to verify that the changes you made to the code were correct. Some of the checks should fail when you initially run the cells. After completing the exercises, the checks should pass.
+
+    # In[34]:
+
+
+    assert results == list(range(20))
+    assert duration < 1, ('The experiments ran in {} seconds. This is too '
+                        'slow.'.format(duration))
+
+    print('Success! The example took {} seconds.'.format(duration))

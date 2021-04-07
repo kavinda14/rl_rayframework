@@ -532,7 +532,8 @@ print('Success! The example took {} seconds.'.format(duration))
 # 
 # When an object is passed to `ray.put`, the object is serialized using the Apache Arrow format (see https://arrow.apache.org/ for more information about Arrow) and copied into a shared memory object store. This object will then be available to other workers on the same machine via shared memory. If it is needed by workers on another machine, it will be shipped under the hood.
 # 
-# **When objects are passed into a remote function, Ray puts them in the object store under the hood.** That is, if `f` is a remote function, the code
+# **When objects are passed into a remote function, 
+# Ray puts them in the object store under the hood.** That is, if `f` is a remote function, the code
 # 
 # ```python
 # x = np.zeros(1000)
@@ -547,14 +548,19 @@ print('Success! The example took {} seconds.'.format(duration))
 # f.remote(x_id)
 # ```
 # 
-# The call to `ray.put` copies the numpy array into the shared-memory object store, from where it can be read by all of the worker processes (without additional copying). However, if you do something like
+# The call to `ray.put` copies the numpy array into the shared-memory object store, 
+# from where it can be read by all of the worker processes (without additional copying). 
+# However, if you do something like
 # 
 # ```python
 # for i in range(10):
 #     f.remote(x)
 # ```
 # 
-# then 10 copies of the array will be placed into the object store. This takes up more memory in the object store than is necessary, and it also takes time to copy the array into the object store over and over. This can be made more efficient by placing the array in the object store only once as follows.
+# then 10 copies of the array will be placed into the object store. 
+# This takes up more memory in the object store than is necessary, 
+# and it also takes time to copy the array into the object store over and over. 
+# This can be made more efficient by placing the array in the object store only once as follows.
 # 
 # ```python
 # x_id = ray.put(x)
@@ -562,7 +568,8 @@ print('Success! The example took {} seconds.'.format(duration))
 #     f.remote(x_id)
 # ```
 # 
-# In this exercise, you will speed up the code below and reduce the memory footprint by calling `ray.put` on the neural net weights before passing them into the remote functions.
+# In this exercise, you will speed up the code below and reduce the memory footprint by calling `ray.put` 
+# on the neural net weights before passing them into the remote functions.
 # 
 # **WARNING:** This exercise requires a lot of memory to run. If this notebook is running within a Docker container, then the docker container must be started with a large shared-memory file system. This can be done by starting the docker container with the `--shm-size` flag.
 
@@ -572,15 +579,22 @@ print('Success! The example took {} seconds.'.format(duration))
 neural_net_weights = {'variable{}'.format(i): np.random.normal(size=1000000)
                       for i in range(50)}
 
-# Pickle is a common method to serialize Python objects. In the next exercise, we compare performance of Pickle and serializing objects using Ray. If you are not familiar with Pickle, you can learn its basics here: https://wiki.python.org/moin/UsingPickle 
+# Pickle is a common method to serialize Python objects. 
+# In the next exercise, we compare performance of Pickle and serializing objects using Ray. 
+# If you are not familiar with Pickle, you can learn its basics here: https://wiki.python.org/moin/UsingPickle 
 
-# **EXERCISE:** Compare the time required to serialize the neural net weights and copy them into the object store using Ray versus the time required to pickle and unpickle the weights. The big win should be with the time required for *deserialization*.
+# **EXERCISE:** Compare the time required to serialize the neural net weights and copy them 
+# into the object store using Ray versus the time required to pickle and unpickle the weights. 
+# The big win should be with the time required for *deserialization*.
 # 
-# Note that when you call `ray.put`, in addition to serializing the object, we are copying it into shared memory where it can be efficiently accessed by other workers on the same machine.
+# Note that when you call `ray.put`, in addition to serializing the object, 
+# we are copying it into shared memory where it can be efficiently accessed by other workers on the same machine.
 # 
 # **NOTE:** You don't actually have to do anything here other than run the cell below and read the output.
 # 
-# **NOTE:** Sometimes `ray.put` can be faster than `pickle.dumps`. This is because `ray.put` leverages multiple threads when serializing large objects. Note that this is not possible with `pickle`.
+# **NOTE:** Sometimes `ray.put` can be faster than `pickle.dumps`. 
+# This is because `ray.put` leverages multiple threads when serializing large objects. 
+# Note that this is not possible with `pickle`.
 
 
 print('Ray - serializing')
@@ -609,14 +623,17 @@ def use_weights(weights, i):
     return i
 
 
-# **EXERCISE:** In the code below, use `ray.put` to avoid copying the neural net weights to the object store multiple times.
+# **EXERCISE:** In the code below, use `ray.put` to avoid copying the neural net weights 
+# to the object store multiple times.
 
 
 # Sleep a little to improve the accuracy of the timing measurements below.
 time.sleep(2.0)
 start_time = time.time()
 
-results = ray.get([use_weights.remote(neural_net_weights, i)
+neural_net_weights_ids = ray.put(neural_net_weights)
+
+results = ray.get([use_weights.remote(neural_net_weights_ids, i)
                    for i in range(20)])
 
 end_time = time.time()
