@@ -161,7 +161,7 @@ def task4():
     print('Success! The example took {} seconds.'.format(duration))
 
 
-#TASK 5 10
+#TASK 5 13
 
 def task5():
 
@@ -187,11 +187,13 @@ def task5():
     result_ids = [f.remote(i) for i in range(6)]
     # Get one batch of tasks. Instead of waiting for a fixed subset of tasks, we
     # should instead use the first 3 tasks that finish.
-    ray.wait(result_ids, num_returns=3, timeout=None)
+    # ray.wait(result_ids, num_returns=3, timeout=None)
     initial_results = ray.get(result_ids[:3])
 
     end_time = time.time()
     duration = end_time - start_time
+
+    ray.wait(result_ids, num_returns=3, timeout=None)
 
     # ray.wait(result_ids, num_returns=3, timeout=None) 
     remaining_results = ray.get(result_ids[3:])
@@ -207,7 +209,7 @@ def task5():
     assert set(initial_indices + remaining_indices) == set(range(6))
 
     assert duration < 1.5, ('The initial batch of ten tasks was retrieved in '
-                            '{} seconds. This is too slow.'.format(duration))
+                            '{} seconds. This is too fast.'.format(duration))
 
     assert duration > 0.8, ('The initial batch of ten tasks was retrieved in '
                             '{} seconds. This is too slow.'.format(duration))
