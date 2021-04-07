@@ -24,12 +24,11 @@ def task2():
     time.sleep(10.0)
     start_time = time.time()
 
-    results = [slow_function.remote(i) for i in range(4)]
+    results = ray.get([slow_function.remote(i) for i in range(4)])
 
     end_time = time.time()
     duration = end_time - start_time
 
-    results = ray.get(results)
     print('The results are {}. This took {} seconds. Run the next cell to see '
       'if the exercise was done correctly.'.format(results, duration))
 
@@ -144,9 +143,9 @@ def task4():
         results.append(f1.increment.remote())
         results.append(f2.increment.remote())
 
+    results = ray.get(results)
     end_time = time.time()
     duration = end_time - start_time
-    results = ray.get(results)
     print("Results are: ", results)
 
     assert not any([isinstance(result, ray.ObjectID) for result in results]), 'Looks like "results" is {}. You may have forgotten to call ray.get.'.format(results)
