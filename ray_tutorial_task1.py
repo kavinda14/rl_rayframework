@@ -161,37 +161,37 @@ def task4():
     print('Success! The example took {} seconds.'.format(duration))
 
 
-    #TASK 5
+#TASK 5
 
-    def task5():
+def task5():
 
-        @ray.remote
-        def f(i):
-            np.random.seed(5 + i)
-            x = np.random.uniform(0, 4)
-            time.sleep(x)
-            return i, time.time()
+    @ray.remote
+    def f(i):
+        np.random.seed(5 + i)
+        x = np.random.uniform(0, 4)
+        time.sleep(x)
+        return i, time.time()
 
 
-        # **EXERCISE:** Using `ray.wait`, change the code below so 
-        # that `initial_results` consists of the outputs of the first three tasks 
-        # to complete instead of the first three tasks that were submitted.
+    # **EXERCISE:** Using `ray.wait`, change the code below so 
+    # that `initial_results` consists of the outputs of the first three tasks 
+    # to complete instead of the first three tasks that were submitted.
 
-        # Sleep a little to improve the accuracy of the timing measurements below.
-        time.sleep(2.0)
-        start_time = time.time()
+    # Sleep a little to improve the accuracy of the timing measurements below.
+    time.sleep(2.0)
+    start_time = time.time()
 
-        # This launches 6 tasks, each of which takes a random amount of time to
-        # complete.
-        result_ids = [f.remote(i) for i in range(6)]
-        # Get one batch of tasks. Instead of waiting for a fixed subset of tasks, we
-        # should instead use the first 3 tasks that finish.
-        initial_results = ray.get(result_ids[:3])
+    # This launches 6 tasks, each of which takes a random amount of time to
+    # complete.
+    result_ids = [f.remote(i) for i in range(6)]
+    # Get one batch of tasks. Instead of waiting for a fixed subset of tasks, we
+    # should instead use the first 3 tasks that finish.
+    initial_results = ray.get(result_ids[:3])
 
-        ready_ids, remaining_ids = ray.wait(initial_results, num_returns=3, timeout=None)
-        print("Ready ids: ", ready_ids)
-        print("remaining ids: ", remaining_ids)
+    ready_ids, remaining_ids = ray.wait(initial_results, num_returns=3, timeout=None)
+    print("Ready ids: ", ready_ids)
+    print("remaining ids: ", remaining_ids)
 
-        end_time = time.time()
-        duration = end_time - start_time
+    end_time = time.time()
+    duration = end_time - start_time
 
