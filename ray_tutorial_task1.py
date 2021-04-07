@@ -190,11 +190,13 @@ def task5():
     initial_results = ray.get(result_ids[:3])
     # initial_results = result_ids[:3]
 
-    ready_ids, remaining_ids = ray.wait(result_ids, num_returns=3, timeout=None)
-
-    print("Ready ids: ", ready_ids)
-    print("remaining ids: ", remaining_ids)
+    ray.wait(result_ids, num_returns=3, timeout=None)
 
     end_time = time.time()
     duration = end_time - start_time
+
+    ray.wait(result_ids, num_returns=3, timeout=None) 
+    remaining_results = ray.get(result_ids[3:])
+
+    print("remaining ids: ", len(remaining_results))
 
