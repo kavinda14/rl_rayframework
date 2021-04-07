@@ -161,7 +161,7 @@ def task4():
     print('Success! The example took {} seconds.'.format(duration))
 
 
-#TASK 5
+#TASK 5 7
 
 def task5():
 
@@ -183,14 +183,15 @@ def task5():
 
     # This launches 6 tasks, each of which takes a random amount of time to
     # complete.
+    # result_ids = [f.remote(i) for i in range(6)]
     result_ids = [f.remote(i) for i in range(6)]
     # Get one batch of tasks. Instead of waiting for a fixed subset of tasks, we
     # should instead use the first 3 tasks that finish.
-    # initial_results = ray.get(result_ids[:3])
-    initial_results = result_ids[:3]
-    print(initial_results)
+    initial_results = ray.get(result_ids[:3])
+    # initial_results = result_ids[:3]
 
-    ready_ids, remaining_ids = ray.wait(initial_results, num_returns=3, timeout=None)
+    ready_ids, remaining_ids = ray.wait(result_ids, num_returns=3, timeout=None)
+
     print("Ready ids: ", ready_ids)
     print("remaining ids: ", remaining_ids)
 
