@@ -10,7 +10,7 @@ import sys
 if __name__ == "__main__":
 
     if len(sys.argv) < 2:
-        cpus = 4
+        cpus = 3
     else:
         cpus = int(sys.argv[1])
     print('running map reduce with %d cpus' % cpus)
