@@ -8,6 +8,8 @@ import numpy as np
 import pickle
 
 
+
+
 ray.init(num_cpus=4, include_webui=False, ignore_reinit_error=True, redis_max_memory=1000000000, object_store_memory=10000000000)
 
 #TASK 1

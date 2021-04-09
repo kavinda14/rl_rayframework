@@ -42,8 +42,11 @@
 # 
 # The differences are the following:
 # 
-# 1. **Invocation:** The regular version is called with `regular_function()`, whereas the remote version is called with `remote_function.remote()`.
-# 2. **Return values:** `regular_function` immediately executes and returns `1`, whereas `remote_function` immediately returns an object ID (a future) and then creates a task that will be executed on a worker process. The result can be obtained with `ray.get`.
+# 1. **Invocation:** The regular version is called with `regular_function()`, 
+# whereas the remote version is called with `remote_function.remote()`.
+# 2. **Return values:** `regular_function` immediately executes and returns `1`, 
+# whereas `remote_function` immediately returns an object ID (a future) and then creates a task that will be executed on a worker process. 
+# The result can be obtained with `ray.get`.
 #     ```python
 #     >>> regular_function(0)
 #     1
@@ -116,11 +119,11 @@ results = [slow_function(i) for i in range(4)]
 end_time = time.time()
 duration = end_time - start_time
 
-def task2(i):
+def task2():
     time.sleep(10.0)
     start_time = time.time()
 
-    results = [slow_function.remote(i) for _ in range(4)]
+    results = [slow_function.remote(i) for i in range(4)]
 
     end_time = time.time()
     duration = end_time - start_time
@@ -356,7 +359,6 @@ print('Success! The example took {} seconds.'.format(duration))
 # **EXERCISE:** Change the `Foo` class to be an actor class by using the `@ray.remote` decorator.
 
 # In[12]:
-
 
 class Foo(object):
     def __init__(self):
