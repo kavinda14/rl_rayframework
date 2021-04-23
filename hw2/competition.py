@@ -390,7 +390,7 @@ def VI_worker_v2(VI_server, data, start_state, end_state):
         VI_server.update.remote(start_state, end_state, batch_v, batch_a)
 
 
-def fast_value_iteration(env, beta = 0.999, epsilon = epsilon, workers_num = 4):
+def fast_value_iteration(env, beta = 0.999, epsilon = 0.01, workers_num = 4):
     S = env.GetStateSpace()
     VI_server = VI_server_v2.remote(S)
     workers_list = []
