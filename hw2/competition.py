@@ -288,12 +288,12 @@ class FrozenLakeEnv(discrete.DiscreteEnv):
 map_8 = (MAPS["8x8"], 8)
 map_16 = (MAPS["16x16"], 16)
 map_32 = (MAPS["32x32"], 32)
-map_50 = (generate_map((50,50)), 50)
+# map_50 = (generate_map((50,50)), 50)
 # map_110 = (generate_map((110,110)), 110)
 
-MAP = map_50
+MAP = map_32
 # map_size = MAP[1]
-map_size = 50
+map_size = 32
 run_time = {}
 
 def evaluate_policy(env, policy, trials = 1000):
