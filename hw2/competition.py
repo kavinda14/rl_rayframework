@@ -337,7 +337,7 @@ def print_results(v, pi, map_size, env, beta, name):
     pickle.dump(pi, open(name + "_" + str(map_size) + "_pi.pkl", "wb"))
 
 ray.shutdown()
-ray.init(include_webui=False, ignore_reinit_error=True, redis_max_memory=50000000, object_store_memory=500000000)
+ray.init(include_webui=False, ignore_reinit_error=True, redis_max_memory=5000000, object_store_memory=50000000)
 
 @ray.remote
 class VI_server_v2(object):
