@@ -1,4 +1,4 @@
-# import ray
+import ray
 import time
 from copy import deepcopy
 import matplotlib.pyplot as plt
