@@ -421,7 +421,7 @@ print("Game Map:")
 env.render()
 
 start_time = time.time()
-v, pi = sync_value_iteration_distributed_v2(env, beta = beta, workers_num = 4)
+v, pi = fast_value_iteration(env, beta = beta, workers_num = 4)
 v_np, pi_np  = np.array(v), np.array(pi)
 end_time = time.time()
 run_time['Sync distributed v2'] = end_time - start_time
