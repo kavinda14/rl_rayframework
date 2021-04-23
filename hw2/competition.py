@@ -1,4 +1,4 @@
-import ray
+# import ray
 import time
 from copy import deepcopy
 import matplotlib.pyplot as plt
@@ -168,7 +168,6 @@ def generate_random_map(size=8, p=0.8):
         valid = is_valid(res)
     return ["".join(x) for x in res]
 
-
 class FrozenLakeEnv(discrete.DiscreteEnv):
     metadata = {'render.modes': ['human', 'ansi']}
 
@@ -290,10 +289,11 @@ map_8 = (MAPS["8x8"], 8)
 map_16 = (MAPS["16x16"], 16)
 map_32 = (MAPS["32x32"], 32)
 #map_50 = (generate_map((50,50)), 50)
-#map_110 = (generate_map((110,110)), 110)
+map_110 = (generate_map((110,110)), 110)
 
-MAP = map_8
-map_size = MAP[1]
+MAP = map_110
+# map_size = MAP[1]
+map_size = 100
 run_time = {}
 
 def evaluate_policy(env, policy, trials = 1000):
