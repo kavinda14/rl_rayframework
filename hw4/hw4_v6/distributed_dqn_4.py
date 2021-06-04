@@ -324,9 +324,9 @@ simulator = CartPoleEnv()
 Memory_Server = ReplayBuffer_remote.remote(2000)  # memory_size = 2000
 
 start_time = time.time()
-dqn_agent = DQN_agent(simulator, hyperparams_CartPole, cw_num=2, ew_num=4, memory=Memory_Server,
+dqn_agent = DQN_agent(simulator, hyperparams_CartPole, cw_num=4, ew_num=4, memory=Memory_Server,
                       action_space=len(ACTION_DICT))
 result = dqn_agent.learn_and_evaluate()
 run_time = time.time() - start_time
 print("Learning time:\n", run_time)
-plot_result(result, 50, ["branch_update with target_model"])
+plot_result(result, 50, ["with buffer, with target_model, cw 4"])
