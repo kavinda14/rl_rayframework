@@ -45,7 +45,7 @@ def plot_result(total_rewards, learning_num, legend):
     plt.legend(legend)
     plt.xlabel("Episodes")
     plt.ylabel("total rewards")
-    plt.savefig(ENV_NAME + "/dqn_2c_4w.png")
+    plt.savefig(ENV_NAME + "/dqn_4.png")
     # plt.show()
     plt.close(fig)
 
