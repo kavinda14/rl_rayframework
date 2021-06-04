@@ -46,8 +46,8 @@ def plot_result(total_rewards, learning_num, legend):
     plt.xlabel("Episodes")
     plt.ylabel("total rewards")
     plt.savefig(ENV_NAME + "/dqn_2c_4w.png")
-    # plt.show()
-    plt.close(fig)
+    plt.show()
+    # plt.close(fig)
 
 
 @ray.remote
